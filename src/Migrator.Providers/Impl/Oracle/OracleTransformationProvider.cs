@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OracleClient;
 using Migrator.Framework;
-using Oracle.DataAccess.Client;
 
 namespace Migrator.Providers.Oracle
 {
@@ -11,8 +11,7 @@ namespace Migrator.Providers.Oracle
         public OracleTransformationProvider(Dialect dialect, string connectionString)
             : base(dialect, connectionString)
         {
-            _connection = new OracleConnection();
-            _connection.ConnectionString = _connectionString;
+            _connection = new OracleConnection(_connectionString);
             _connection.Open();
         }
 
