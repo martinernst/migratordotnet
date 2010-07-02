@@ -126,5 +126,15 @@ namespace Migrator.Providers.Oracle
 
             return columns.ToArray();
         }
+
+        public override int Delete(string table, string[] columns, string[] values)
+        {
+            if (null == columns || null == values)
+            {
+                return base.Delete(table, columns, values);
+            }
+
+            return ExecuteNonQuery(String.Format("DELETE FROM {0} WHERE ({1})", table, JoinColumnsAndValues(columns, values, " AND ")));
+        }
     }
 }

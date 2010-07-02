@@ -748,7 +748,8 @@ namespace Migrator.Providers
 						while(reader.Read()){
 							_appliedMigrations.Add(reader.GetInt64(0));
 						}
-					}
+                    }
+                    _appliedMigrations.Sort();
 				}
 				return _appliedMigrations;
 			}
@@ -829,6 +830,11 @@ namespace Migrator.Providers
 
         public string JoinColumnsAndValues(string[] columns, string[] values)
         {
+            return JoinColumnsAndValues(columns, values, ", ");
+        }
+
+        public string JoinColumnsAndValues(string[] columns, string[] values, string delimiter)
+        {
             string[] quotedValues = QuoteValues(values);
             string[] namesAndValues = new string[columns.Length];
             for (int i = 0; i < columns.Length; i++)
@@ -836,7 +842,7 @@ namespace Migrator.Providers
                 namesAndValues[i] = String.Format("{0}={1}", columns[i], quotedValues[i]);
             }
 
-            return String.Join(", ", namesAndValues);
+            return String.Join(delimiter, namesAndValues);
         }
 	}
 }
